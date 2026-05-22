@@ -4,10 +4,8 @@ const puppeteer = require('puppeteer-core');
 const app = express();
 app.use(express.json());
 
-const CDP_URL = 'ws://127.0.0.1:9222';
-
 async function withPage(fn) {
-  const browser = await puppeteer.connect({ browserWSEndpoint: CDP_URL });
+  const browser = await puppeteer.connect({ browserURL: 'http://127.0.0.1:9222' });
   const page = await browser.newPage();
   try {
     return await fn(page);
@@ -22,7 +20,7 @@ app.post('/pdf', async (req, res) => {
   if (!url) return res.status(400).json({ error: 'url required' });
   try {
     const pdf = await withPage(async (page) => {
-      await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       return page.pdf({ format: 'A4', printBackground: true });
     });
     res.setHeader('Content-Type', 'application/pdf');
@@ -38,7 +36,7 @@ app.post('/screenshot', async (req, res) => {
   if (!url) return res.status(400).json({ error: 'url required' });
   try {
     const png = await withPage(async (page) => {
-      await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       return page.screenshot({ fullPage, type: 'png' });
     });
     res.setHeader('Content-Type', 'image/png');
@@ -53,7 +51,7 @@ app.post('/html', async (req, res) => {
   if (!url) return res.status(400).json({ error: 'url required' });
   try {
     const html = await withPage(async (page) => {
-      await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
       return page.content();
     });
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
