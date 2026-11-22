@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+- `LICENSE.md`: BZ-1.1 (BREIZHZION Personal Use License), the licence of every public repository of
+  the fleet; the repository was public without any licence.
+
 ## [1.0.1] - 2026-11-22
 
 ### Security

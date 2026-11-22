@@ -47,3 +47,9 @@ services:
       - "3100:3100"
     restart: unless-stopped
 ```
+
+## License
+
+[BZ-1.1](LICENSE.md), the BREIZHZION Personal Use License. Source available rather than open
+source: read it, study it, use it personally. Commercial use and manufacturing for third
+parties are reserved. Contact `contact@breizhzion.com`.
